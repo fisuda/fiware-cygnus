@@ -272,7 +272,8 @@ RUN \
     apt-get -y install openjdk-17-jdk curl git python3 maven && \
     # Add Cygnus user
     adduser ${CYGNUS_USER} && \
-    export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64 && \
+    if [ $(uname -m) = aarch64 ]; then ARCH=arm64; else ARCH=amd64; fi && \
+    export JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-${ARCH} && \
     export MAVEN_OPTS="-Xmx2048M -Xss128M -XX:MetaspaceSize=512M -XX:MaxMetaspaceSize=2048M -Dfile.encoding=UTF-8 -Dproject.build.sourceEncoding=UTF-8 -Dmaven.compiler.useIncrementalCompilation=false -DdependencyLocationsEnabled=false -XX:+TieredCompilation -XX:TieredStopAtLevel=1" && \
     export MAVEN_ARGS="-B -T8" && \
     # For debug Maven
